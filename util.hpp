@@ -5,6 +5,9 @@
 
 namespace bklib {
 
+template <typename T>
+inline T const& as_const(T&& value) BK_NOEXCEPT { return value; }
+
 template <typename T, size_t N>
 inline BK_CONSTEXPR size_t elements_in(T const (&)[N]) {
     return N;

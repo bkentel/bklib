@@ -3,8 +3,8 @@
 #include <type_traits>
 #include <memory>
 
-#include "win_platform.hpp"
-#include "math.hpp"
+#include <bklib/impl/win/win_platform.hpp>
+#include <bklib/math.hpp>
 
 namespace bklib {
 namespace detail {
@@ -59,6 +59,16 @@ public:
     void skew(float sx, float sy) {
         x_scale_ = sx;
         y_scale_ = sy;
+    }
+
+    template <typename T>
+    void draw_rect(bklib::axis_aligned_rect<T> const r) {
+        auto const rect = D2D1::RectF(r.left(), r.top(), r.right() - 1, r.bottom() - 1);
+        target_->DrawRectangle(rect, brush_.get());
+    }
+
+    void draw_rect(float top, float left, float w, float h) {    
+        target_->DrawRectangle(D2D1::RectF(left, top, left + w, top + h), brush_.get());
     }
 
     template <typename T>

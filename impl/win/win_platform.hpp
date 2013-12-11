@@ -23,9 +23,9 @@
 #include <imm.h>
 #pragma comment(lib, "Imm32.lib")
 
-#include "config.hpp"
-#include "exception.hpp"
-#include "assert.hpp"
+#include <bklib/config.hpp>
+#include <bklib/exception.hpp>
+#include <bklib/assert.hpp>
 
 namespace bklib {
 namespace detail {
