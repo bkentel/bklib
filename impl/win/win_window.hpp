@@ -167,6 +167,7 @@ public:
     //--------------------------------------------------------------------------
     void listen(on_keydown       callback);
     void listen(on_keyup         callback);
+    void listen(on_keyrepeat     callback);
     //--------------------------------------------------------------------------
 private:
     detail::window_handle window_;

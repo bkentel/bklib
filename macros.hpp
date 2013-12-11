@@ -10,6 +10,12 @@
 
 #define BK_UNUSED(x) (void)(x)
 
+#if defined(BOOST_COMP_MSVC)
+#   define BK_DEBUG_BREAK __debugbreak
+#else
+#   error "define me" //TODO
+#endif
+
 #define BK_NO_COPY_ASSIGN(name)\
 name(name const&) = delete;\
 name& operator=(name const&) = delete

@@ -1,12 +1,7 @@
 #pragma once
 
 #include <cstdlib>
-
-#if defined(BOOST_COMP_MSVC)
-#   define BK_DEBUG_BREAK __debugbreak
-#else
-#   error "define me" //TODO
-#endif
+#include "macros.hpp"
 
 #define BK_ASSERT(condition) \
 do { \

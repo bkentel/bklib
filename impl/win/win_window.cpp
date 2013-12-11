@@ -523,22 +523,30 @@ void window_impl::shutdown() {
     });
 }
 //------------------------------------------------------------------------------
-void window_impl::listen(bklib::on_create callback) { on_create_ = callback; }
-void window_impl::listen(bklib::on_paint  callback) { on_paint_  = callback; }
-void window_impl::listen(bklib::on_close  callback) { on_close_  = callback; }
-void window_impl::listen(bklib::on_resize callback) { on_resize_ = callback; }
+#define BK_DEFINE_EVENT(event)\
+void window_impl::listen(bklib::event callback) {\
+    event##_ = callback;\
+}
+
+BK_DEFINE_EVENT(on_create);
+BK_DEFINE_EVENT(on_paint);
+BK_DEFINE_EVENT(on_close);
+BK_DEFINE_EVENT(on_resize);
 //------------------------------------------------------------------------------
 void window_impl::listen(bklib::on_mouse_enter   callback) {}
 void window_impl::listen(bklib::on_mouse_exit    callback) {}
-void window_impl::listen(bklib::on_mouse_move    callback) { on_mouse_move_    = callback; }
-void window_impl::listen(bklib::on_mouse_move_to callback) { on_mouse_move_to_ = callback; }
-void window_impl::listen(bklib::on_mouse_down    callback) { on_mouse_down_    = callback; }
-void window_impl::listen(bklib::on_mouse_up      callback) { on_mouse_up_      = callback; }
-void window_impl::listen(bklib::on_mouse_wheel_v callback) { on_mouse_wheel_v_ = callback; }
+BK_DEFINE_EVENT(on_mouse_move);
+BK_DEFINE_EVENT(on_mouse_move_to);
+BK_DEFINE_EVENT(on_mouse_down);
+BK_DEFINE_EVENT(on_mouse_up);
+BK_DEFINE_EVENT(on_mouse_wheel_v);
 void window_impl::listen(bklib::on_mouse_wheel_h callback) {}
 //------------------------------------------------------------------------------
-void window_impl::listen(bklib::on_keydown callback) { on_keydown_ = callback; }
-void window_impl::listen(bklib::on_keyup   callback) { on_keyup_   = callback; }
+BK_DEFINE_EVENT(on_keydown);
+BK_DEFINE_EVENT(on_keyup);
+BK_DEFINE_EVENT(on_keyrepeat);
+
+#undef BK_DEFINE_EVENT
 //------------------------------------------------------------------------------
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -72,6 +72,7 @@ public:
 
     void listen(on_keydown       callback);
     void listen(on_keyup         callback);
+    void listen(on_keyrepeat     callback);
     //--------------------------------------------------------------------------
 private:
     std::unique_ptr<impl_t_> impl_;
