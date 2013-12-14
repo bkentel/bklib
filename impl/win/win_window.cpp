@@ -334,15 +334,19 @@ void window_impl::handle_raw_mouse_(
     }
 
     if (mouse.has_buttons()) {
+        auto const ms = mouse_state_.absolute();
+        auto const x = ms.x;
+        auto const y = ms.y;
+
         for (size_t i = 0; i < raw_mouse::BUTTON_COUNT; ++i) {
             switch (mouse[i]) {
             case raw_mouse::button_state::went_down :
                 mouse_state_.set_button(i, when, true);
-                if (on_mouse_down_) on_mouse_down_(mouse_state_, i);
+                if (on_mouse_down_) on_mouse_down_(mouse_state_, x, y, i);
                 break;
             case raw_mouse::button_state::went_up :
                 mouse_state_.set_button(i, when, false);
-                if (on_mouse_up_) on_mouse_up_(mouse_state_, i);
+                if (on_mouse_up_) on_mouse_up_(mouse_state_, x, y, i);
                 break;
             }
         }

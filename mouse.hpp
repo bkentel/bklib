@@ -23,8 +23,8 @@ BK_DECLARE_EVENT(on_mouse_click,     void (mouse& m, unsigned button));
 BK_DECLARE_EVENT(on_mouse_dbl_click, void (mouse& m, unsigned button));
 BK_DECLARE_EVENT(on_mouse_move,      void (mouse& m, int x, int y));
 BK_DECLARE_EVENT(on_mouse_move_to,   void (mouse& m, int dx, int dy));
-BK_DECLARE_EVENT(on_mouse_down,      void (mouse& m, unsigned button));
-BK_DECLARE_EVENT(on_mouse_up,        void (mouse& m, unsigned button));
+BK_DECLARE_EVENT(on_mouse_down,      void (mouse& m, int x, int y, unsigned button));
+BK_DECLARE_EVENT(on_mouse_up,        void (mouse& m, int x, int y, unsigned button));
 BK_DECLARE_EVENT(on_mouse_wheel_v,   void (mouse& m, int delta));
 BK_DECLARE_EVENT(on_mouse_wheel_h,   void (mouse& m, int delta));
 //==============================================================================

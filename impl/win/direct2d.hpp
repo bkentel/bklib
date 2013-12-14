@@ -63,7 +63,7 @@ public:
 
     template <typename T>
     void draw_rect(bklib::axis_aligned_rect<T> const r) {
-        auto const rect = D2D1::RectF(r.left(), r.top(), r.right() - 1, r.bottom() - 1);
+        auto const rect = D2D1::RectF(r.left(), r.top(), r.right(), r.bottom());
         target_->DrawRectangle(rect, brush_.get());
     }
 
@@ -73,7 +73,7 @@ public:
 
     template <typename T>
     void draw_filled_rect(bklib::axis_aligned_rect<T> const r) {
-        auto const rect = D2D1::RectF(r.left(), r.top(), r.right() - 1, r.bottom() - 1);
+        auto const rect = D2D1::RectF(r.left(), r.top(), r.right(), r.bottom());
         target_->FillRectangle(rect, brush_.get());
     }
 
@@ -97,6 +97,10 @@ public:
           , D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR
           , convert_rect(src)
         );
+    }
+
+    void set_color(float r, float g, float b, float a = 1.0f) {
+        brush_->SetColor(D2D1::ColorF(r, g, b, a));
     }
 private:
     float x_off_;
