@@ -62,13 +62,29 @@ public:
     }
 
     template <typename T>
-    void draw_rect(bklib::axis_aligned_rect<T> const r) {
-        auto const rect = D2D1::RectF(r.left(), r.top(), r.right(), r.bottom());
-        target_->DrawRectangle(rect, brush_.get());
+    void draw_rect(bklib::axis_aligned_rect<T> const r, float width = 1.0f) {
+        auto const half = width / 2.0f;
+
+        draw_rect(
+            D2D1::RectF(
+                static_cast<float>(r.left())   + half
+              , static_cast<float>(r.top())    + half
+              , static_cast<float>(r.right())  - half
+              , static_cast<float>(r.bottom()) - half
+            )
+          , width
+        );
     }
 
-    void draw_rect(float top, float left, float w, float h) {    
-        target_->DrawRectangle(D2D1::RectF(left, top, left + w, top + h), brush_.get());
+    void draw_rect(float top, float left, float w, float h, float width = 1.0f) {
+        draw_rect(
+            D2D1::RectF(left, top, left + w, top + h)
+          , width
+        );  
+    }
+
+    void draw_rect(D2D1_RECT_F const rect, float const width = 1.0f) {
+        target_->DrawRectangle(rect, brush_.get(), width);
     }
 
     template <typename T>
