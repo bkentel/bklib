@@ -27,6 +27,7 @@
     <ClInclude Include="math.hpp" />
     <ClInclude Include="mouse.hpp" />
     <ClInclude Include="pch.hpp" />
+    <ClInclude Include="renderer2d.hpp" />
     <ClInclude Include="scope_exit.hpp" />
     <ClInclude Include="timekeeper.hpp" />
     <ClInclude Include="types.hpp" />
@@ -41,6 +42,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="impl\renderer2d.cpp" />
     <ClCompile Include="impl\timekeeper.cpp" />
     <ClCompile Include="impl\window.cpp" />
     <ClCompile Include="impl\win\direct2d.cpp" />

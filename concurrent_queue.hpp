@@ -17,6 +17,10 @@ public:
             elements_.push(std::move(e));
         } //unlock
 
+        if (elements_.size() > 200) {
+            BK_DEBUG_BREAK();
+        }
+
         empty_condition_.notify_all();
     }
 

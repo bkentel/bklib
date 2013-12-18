@@ -414,6 +414,8 @@ LRESULT window_impl::local_wnd_proc_(
             if (on_paint_) on_paint_();
         });
 
+        ::ValidateRect(handle(), nullptr);
+
         return 0;
     };
     //--------------------------------------------------------------------------
@@ -454,6 +456,7 @@ LRESULT window_impl::local_wnd_proc_(
 
     switch (uMsg) {
     default :
+        std::cout << std::hex <<  uMsg << std::endl;
         break;
     case WM_SETFOCUS :
         break;

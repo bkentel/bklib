@@ -1,8 +1,11 @@
 #include "direct2d.hpp"
 
-using bklib::detail::d2d_renderer;
+using bklib::platform_window_handle;
 using bklib::detail::make_com_error;
+using bklib::detail::make_com_ptr;
 using bklib::detail::com_ptr;
+
+using impl_t = bklib::renderer2d::impl_t;
 
 namespace {
 //------------------------------------------------------------------------------
@@ -103,17 +106,17 @@ auto create_decoder_from_file(
 //------------------------------------------------------------------------------
 }
 
-d2d_renderer::d2d_renderer(HWND window)
+impl_t::impl_t(platform_window_handle handle)
   : x_off_{0.0f}, y_off_{0.0f}
   , x_scale_{1.0f}, y_scale_{1.0f}
   , wic_factory_(create_wic_factory())
   , factory_(create_factory())
-  , target_(create_renderer(*factory_, window))
+  , target_(create_renderer(*factory_, handle))
   , brush_(create_brush(*target_))
 {
 }
 
-com_ptr<ID2D1Bitmap> d2d_renderer::load_image() {
+com_ptr<ID2D1Bitmap> impl_t::load_image() {
     wchar_t const file_name[] = L"./data/tiles.png";
 
     auto decoder = create_decoder_from_file(*wic_factory_, file_name);

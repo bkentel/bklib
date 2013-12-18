@@ -78,6 +78,9 @@
     <ClInclude Include="impl\win\direct2d.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="renderer2d.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="impl\win\win_window.cpp">
@@ -102,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="impl\win\direct2d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="impl\renderer2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

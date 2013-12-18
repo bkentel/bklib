@@ -4,21 +4,23 @@
 #include <memory>
 
 #include <bklib/impl/win/win_platform.hpp>
-#include <bklib/math.hpp>
+#include <bklib/renderer2d.hpp>
 
 namespace bklib {
-namespace detail {
 
-class d2d_renderer {
+class renderer2d::impl_t {
 public:
-    d2d_renderer(d2d_renderer const&) = delete;
-    d2d_renderer& operator=(d2d_renderer const&) = delete;
-    ~d2d_renderer() = default;
+    template <typename T>
+    using com_ptr = bklib::detail::com_ptr<T>;
 
-    d2d_renderer(HWND window);
+    impl_t(impl_t const&) = delete;
+    impl_t& operator=(impl_t const&) = delete;
+    ~impl_t() = default;
 
-    void resize(unsigned w, unsigned h) {
-        target_->Resize(D2D1::SizeU(w, h));
+    impl_t(platform_window_handle handle);
+
+    void resize(unsigned width, unsigned height) {
+        target_->Resize(D2D1::SizeU(width, height));
     }
 
     void begin() {
@@ -31,7 +33,6 @@ public:
         );
 
         target_->SetTransform(mat);
-
         target_->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
     }
 
@@ -43,8 +44,65 @@ public:
     }
 
     void clear() {
-        target_->Clear(D2D1::ColorF(1.0, 0.0, 0.0));
+        color_alpha const clear_color {1.0f, 0.0f, 0.0f, 1.0f};
+        clear(clear_color);
     }
+
+    void clear(color const c) {
+        color_alpha const clear_color {gfx::red(c), gfx::green(c), gfx::blue(c), 1.0f};
+        clear(clear_color);
+    }
+
+    void clear(color_alpha const c) {
+        auto const clear_color = D2D1::ColorF(
+            gfx::red(c)
+          , gfx::green(c)
+          , gfx::blue(c)
+          , gfx::alpha(c)
+        );
+
+        target_->Clear(clear_color);
+    }
+
+    void draw_text(bklib::string_ref  text);
+    void draw_text(bklib::wstring_ref text);
+
+    void draw_rect(rect const r, coord_t const width = 1.0f) {
+        auto const half = width / 2.0f;
+        auto const r1 = D2D1::RectF(
+              r.left()   + half
+            , r.top()    + half
+            , r.right()  - half
+            , r.bottom() - half
+        );
+
+        target_->DrawRectangle(r1, brush_.get(), width);
+    }
+
+
+    void draw_round_rect();
+
+    void set_color_brush(color_alpha c) {
+        auto const c1 = D2D1::ColorF(
+            gfx::red(c)
+          , gfx::green(c)
+          , gfx::blue(c)
+          , gfx::alpha(c)
+        );
+
+        brush_->SetColor(c1);
+    }
+
+    void fill_rect(rect const r) {
+        auto const r1 = D2D1::RectF(
+              r.left()
+            , r.top()
+            , r.right()
+            , r.bottom()
+        );
+        target_->FillRectangle(r1, brush_.get());
+    }
+    void fill_round_rect();
 
     void translate(float dx, float dy) {
         x_off_ += dx;
@@ -131,5 +189,4 @@ private:
     com_ptr<ID2D1SolidColorBrush>  brush_;
 };
 
-} //namespace detail
 } //namespace bklib
