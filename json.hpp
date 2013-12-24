@@ -32,9 +32,15 @@ namespace error {
     BK_DEFINE_EXCEPTION_INFO(info_expected_size, size_t);
     BK_DEFINE_EXCEPTION_INFO(info_actual_size,   size_t);
     BK_DEFINE_EXCEPTION_INFO(info_index,         index);
+    BK_DEFINE_EXCEPTION_INFO(info_rule_trace,    std::vector<bklib::string_ref>);
+
+    void add_rule_exception_info(json::error::base& e, bklib::string_ref rule);
 
     std::ostream& operator<<(std::ostream& out, base const& e);
 } //namespace error
+
+#define BK_JSON_ADD_TRACE(E) ::bklib::json::error::add_rule_exception_info(E, __func__); throw
+
 //==============================================================================
 //! @throws json::error::bad_type if !json.isArray().
 //! @return json
@@ -63,6 +69,12 @@ cref_wrapped require_key(cref json, size_t index);
 //==============================================================================
 utf8string require_string(cref json);
 //==============================================================================
+
+int require_int(cref json);
+
+cref_wrapped optional_key(cref json, size_t index);
+
+
 namespace detail {
     void for_each_element_skip_on_fail_on_fail_(
         error::base const& e

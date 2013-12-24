@@ -26,6 +26,17 @@ namespace {
     }
 } //namespace anon
 //==============================================================================
+void error::add_rule_exception_info(json::error::base& e, bklib::string_ref rule) {
+    auto const ptr = boost::get_error_info<info_rule_trace>(e);
+
+    if (ptr) {
+        ptr->push_back(rule);
+    } else {
+        e << info_rule_trace{{rule}};
+    }
+}
+
+//==============================================================================
 string_ref json::type_info::to_string() const {
     using types = Json::ValueType;
 
@@ -106,6 +117,23 @@ utf8string json::require_string(cref json) {
         make_bad_type(Json::stringValue, json.type())
     );
 }
+//==============================================================================
+int json::require_int(cref json) {
+    if (json.isIntegral()) {
+        return json.asInt();
+    }
+
+    BOOST_THROW_EXCEPTION(
+        make_bad_type(Json::intValue, json.type())
+    );
+}
+
+//==============================================================================
+cref_wrapped json::optional_key(cref json, size_t const index) {
+    BK_ASSERT(json.isArray());
+    return (index < json.size()) ? json[index] : Json::Value::null;
+}
+
 //==============================================================================
 std::ostream& error::operator<<(std::ostream& out, base const& e) {
     out << "json exception (" << typeid(e).name() << ")";

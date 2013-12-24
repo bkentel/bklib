@@ -111,6 +111,8 @@ public:
         return state_[get_enum_value(k)];
     }
     
+    key_combo state() const { return keys_; }
+
     bool set_state(keycode key, bool is_down);
     void clear(on_keyup const& functor);
 private:

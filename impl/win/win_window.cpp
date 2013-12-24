@@ -621,7 +621,8 @@ raw_keyboard::raw_keyboard(RAWKEYBOARD const& keyboard)
         is_valid_ = true; 
     }
 
-    bool const went_down_ = !(kb.Flags & RI_KEY_BREAK);
+    went_down_ = !(kb.Flags & RI_KEY_BREAK);
+
     bool const is_e0      =  (kb.Flags & RI_KEY_E0) != 0;
     bool const is_e1      =  (kb.Flags & RI_KEY_E1) != 0;
 
