@@ -96,7 +96,7 @@ cref_wrapped json::require_key(cref json, size_t index) {
     );   
 }
 //==============================================================================
-cref_wrapped json::require_key(cref json, utf8string const& index) {
+cref_wrapped json::require_key(cref json, char const* index) {
     BK_ASSERT(json.isObject());
 
     if (json.isMember(index)) {
@@ -107,6 +107,7 @@ cref_wrapped json::require_key(cref json, utf8string const& index) {
         error::bad_index{} << error::info_index{index}
     );
 }
+
 //==============================================================================
 utf8string json::require_string(cref json) {
     if (json.isString()) {

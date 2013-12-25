@@ -56,7 +56,16 @@ cref_wrapped require_object(cref json);
 //! @throws json::error::bad_index if @c index is invalid.
 //! @return A @c cref to the value at @c index.
 //==============================================================================
-cref_wrapped require_key(cref json, utf8string const& index);
+cref_wrapped require_key(cref json, char const* index);
+
+inline cref_wrapped require_key(cref json, utf8string const& index) {
+    return require_key(json, index.c_str());
+}
+
+inline cref_wrapped require_key(cref json, string_ref index) {
+    return require_key(json, index.data());
+}
+
 //==============================================================================
 //! @pre json.isArray().
 //! @throws json::error::bad_index if @c index is invalid.
