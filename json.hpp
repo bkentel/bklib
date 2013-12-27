@@ -18,7 +18,7 @@ struct type_info {
 
     string_ref to_string() const;
 
-    Json::ValueType type;
+    json::type type;
 };
 //==============================================================================
 namespace error {
@@ -27,12 +27,18 @@ namespace error {
     struct bad_size  : virtual base {};
     struct bad_index : virtual base {};
 
+    namespace detail {
+        using size_pair = std::pair<size_t, size_t>;
+    } //namespace detail
+
     BK_DEFINE_EXCEPTION_INFO(info_expected_type, type_info);
     BK_DEFINE_EXCEPTION_INFO(info_actual_type,   type_info);
-    BK_DEFINE_EXCEPTION_INFO(info_expected_size, size_t);
+    BK_DEFINE_EXCEPTION_INFO(info_expected_size, detail::size_pair);
     BK_DEFINE_EXCEPTION_INFO(info_actual_size,   size_t);
     BK_DEFINE_EXCEPTION_INFO(info_index,         index);
     BK_DEFINE_EXCEPTION_INFO(info_rule_trace,    std::vector<bklib::string_ref>);
+
+    bad_type make_bad_type(type expected, type actual);
 
     void add_rule_exception_info(json::error::base& e, bklib::string_ref rule);
 
@@ -40,6 +46,12 @@ namespace error {
 } //namespace error
 
 #define BK_JSON_ADD_TRACE(E) ::bklib::json::error::add_rule_exception_info(E, __func__); throw
+
+cref_wrapped require_size(cref json, size_t min, size_t max);
+
+inline cref_wrapped require_size(cref json, size_t size) {
+    return require_size(json, size, size);
+}
 
 //==============================================================================
 //! @throws json::error::bad_type if !json.isArray().

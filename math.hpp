@@ -343,7 +343,8 @@ struct intersection_result {
 template <typename T, typename... Types>
 struct geometric_union {
     using point = point2d<T>;
-    
+
+ 
     //Recursive case
     template <int I = -1>
     bool intersects(point const p) const {
@@ -741,7 +742,8 @@ auto intersection_of(axis_aligned_rect<T> const ra, axis_aligned_rect<T> const r
     return intersection_result<rect>{{
         (l < r) && (t < b)
       , {rect::allow_malformed{}, l, t, r, b}
-    }};   
+    }};
+ 
 }
 template <typename T>
 auto intersection_of(axis_aligned_rect<T> const r, point2d<T> const p) BK_NOEXCEPT {
@@ -781,7 +783,8 @@ vector2d<T> random_direction(F& random) BK_NOEXCEPT {
 //! Integral | Integral | Type cast
 //! Integral | Floating | Type cast
 //==============================================================================
-template <typename Result, typename Source, 
+template <typename Result, typename Source,
+ 
     typename std::enable_if<
         std::is_integral<Result>::value
      && std::is_floating_point<Source>::value

@@ -46,9 +46,9 @@ auto create_renderer(ID2D1Factory& factory, HWND window) {
     RECT window_rect {0};
     ::GetClientRect(window, &window_rect);
 
-    // Create a Direct2D render target			
+    // Create a Direct2D render target
     ID2D1HwndRenderTarget* target = nullptr;
-		
+
     HRESULT const hr = factory.CreateHwndRenderTarget(
         D2D1::RenderTargetProperties()
       , D2D1::HwndRenderTargetProperties(
@@ -60,7 +60,7 @@ auto create_renderer(ID2D1Factory& factory, HWND window) {
         )
       , &target
     );
-        
+
     if (FAILED(hr)) {
         make_com_error("ID2D1Factory::CreateHwndRenderTarget", hr);
     }

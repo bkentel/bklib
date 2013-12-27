@@ -138,7 +138,7 @@ public:
         draw_rect(
             D2D1::RectF(left, top, left + w, top + h)
           , width
-        );  
+        );
     }
 
     void draw_rect(D2D1_RECT_F const rect, float const width = 1.0f) {
@@ -151,7 +151,7 @@ public:
         target_->FillRectangle(rect, brush_.get());
     }
 
-    void draw_filled_rect(float top, float left, float w, float h) {    
+    void draw_filled_rect(float top, float left, float w, float h) {
         target_->FillRectangle(D2D1::RectF(left, top, left + w, top + h), brush_.get());
     }
 

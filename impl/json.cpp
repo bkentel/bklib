@@ -12,19 +12,15 @@ using bklib::string_ref;
 using json::cref;
 using json::cref_wrapped;
 
-namespace {
-    error::bad_type make_bad_type(
-        Json::ValueType const expected
-      , Json::ValueType const actual
-    ) {
-        error::bad_type e;
+error::bad_type make_bad_type(json::type const expected, json::type const actual) {
+    error::bad_type e;
 
-        e << error::info_expected_type{{expected}}
-          << error::info_actual_type{{actual}};
+    e << error::info_expected_type{{expected}}
+      << error::info_actual_type{{actual}};
 
-        return e;
-    }
-} //namespace anon
+    return e;
+}
+
 //==============================================================================
 void error::add_rule_exception_info(json::error::base& e, bklib::string_ref rule) {
     auto const ptr = boost::get_error_info<info_rule_trace>(e);
@@ -38,30 +34,42 @@ void error::add_rule_exception_info(json::error::base& e, bklib::string_ref rule
 
 //==============================================================================
 string_ref json::type_info::to_string() const {
-    using types = Json::ValueType;
-
     return [this] {
-        switch (type) {
+        switch (this->type) {
         default:
             //fall through to null
-        case types::nullValue:
+        case type::nullValue:
             return "null";
-        case types::intValue:
+        case type::intValue:
             return "signed";
-        case types::uintValue:
+        case type::uintValue:
             return "unsigned";
-        case types::realValue:
+        case type::realValue:
             return "float";
-        case types::stringValue:
+        case type::stringValue:
             return "string";
-        case types::booleanValue:
+        case type::booleanValue:
             return "bool";
-        case types::arrayValue:
+        case type::arrayValue:
             return "array";
-        case types::objectValue:
+        case type::objectValue:
             return "object";
         }
     }();
+}
+
+//==============================================================================
+cref_wrapped json::require_size(cref json, size_t const min, size_t const max) {
+    auto const size = json.size();
+
+    if (size < min || size > max) {
+        BOOST_THROW_EXCEPTION(error::bad_size{}
+         << error::info_expected_size{std::make_pair(min, max)}
+         << error::info_actual_size{size}
+        );
+    }
+
+    return json;
 }
 //==============================================================================
 cref_wrapped json::require_array(cref json) {
@@ -93,7 +101,7 @@ cref_wrapped json::require_key(cref json, size_t index) {
 
     BOOST_THROW_EXCEPTION(
         error::bad_index{} << error::info_index{index}
-    );   
+    );
 }
 //==============================================================================
 cref_wrapped json::require_key(cref json, char const* index) {
@@ -146,7 +154,7 @@ std::ostream& error::operator<<(std::ostream& out, base const& e) {
         out << "\n  actual type   = " <<  ptr->to_string();
     }
     if (auto const ptr = boost::get_error_info<info_expected_size>(e)) {
-        out << "\n  expected size = " << *ptr;
+        out << "\n  expected size = [" << ptr->first << ", " << ptr->second << "]";
     }
     if (auto const ptr = boost::get_error_info<info_actual_size>(e)) {
         out << "\n  actual size   = " << *ptr;

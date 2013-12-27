@@ -5,6 +5,16 @@
 
 namespace bklib {
 
+inline bool is_ascii(char const* str) {
+    BK_ASSERT(str != nullptr);
+
+    while (char const c = *str++) {
+        if (c != (c & char{0x7F})) return false;
+    }
+
+    return true;
+}
+
 template <typename T>
 inline T const& as_const(T&& value) BK_NOEXCEPT { return value; }
 

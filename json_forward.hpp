@@ -12,6 +12,7 @@ namespace bklib {
         using cref_wrapped = std::reference_wrapper<Json::Value const>;
         using cref         = Json::Value const&;
         using index        = boost::variant<size_t, utf8string>;
+        using type         = Json::ValueType;
 
         struct type_info;
     } //namespace json
