@@ -1,10 +1,11 @@
 #pragma once
 
 #include <string>
-#include <functional>
 #include <cstdint>
 #include <chrono>
 
+#include <boost/container/flat_map.hpp>
+#include <boost/container/flat_set.hpp>
 #include <boost/utility/string_ref.hpp>
 
 #include "config.hpp"
@@ -27,6 +28,9 @@ namespace bklib {
 
     using clock_t    = std::chrono::high_resolution_clock;
     using time_point = clock_t::time_point;
+
+    using boost::container::flat_map;
+    using boost::container::flat_set;
 #if defined(BOOST_OS_WINDOWS)
     using platform_char   = wchar_t;
     using platform_string = std::basic_string<platform_char>;

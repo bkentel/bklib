@@ -19,7 +19,7 @@ template <typename T>
 inline T const& as_const(T&& value) BK_NOEXCEPT { return value; }
 
 template <typename T, size_t N>
-inline BK_CONSTEXPR size_t elements_in(T const (&)[N]) {
+inline size_t elements_in(T const (&)[N]) {
     return N;
 }
 
@@ -85,7 +85,7 @@ template <typename T, size_t N = sizeof(T)> struct print_size_of;
 template <typename T> struct print_type_of;
 
 template <typename Enum>
-inline BK_CONSTEXPR auto get_enum_value(Enum const e) BK_NOEXCEPT {
+inline auto get_enum_value(Enum const e) BK_NOEXCEPT {
     static_assert(std::is_enum<Enum>::value, "must be an enum type.");
     return static_cast<std::underlying_type_t<Enum>>(e);
 }

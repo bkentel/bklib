@@ -26,6 +26,7 @@ namespace error {
     struct bad_type  : virtual base {};
     struct bad_size  : virtual base {};
     struct bad_index : virtual base {};
+    struct bad_value : virtual base {};
 
     namespace detail {
         using size_pair = std::pair<size_t, size_t>;
@@ -37,6 +38,7 @@ namespace error {
     BK_DEFINE_EXCEPTION_INFO(info_actual_size,   size_t);
     BK_DEFINE_EXCEPTION_INFO(info_index,         index);
     BK_DEFINE_EXCEPTION_INFO(info_rule_trace,    std::vector<bklib::string_ref>);
+    BK_DEFINE_EXCEPTION_INFO(info_value,         bklib::utf8string);
 
     bad_type make_bad_type(type expected, type actual);
 

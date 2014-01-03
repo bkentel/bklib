@@ -20,6 +20,10 @@ void renderer2d::resize(unsigned width, unsigned height) {
     impl_->resize(width, height);
 }
 
+void renderer2d::set_transform(glm::mat3 const& mat) {
+    impl_->set_transform(mat);
+}
+
 void renderer2d::begin() {
     impl_->begin();
 }

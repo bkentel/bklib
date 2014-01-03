@@ -107,9 +107,7 @@ auto create_decoder_from_file(
 }
 
 impl_t::impl_t(platform_window_handle handle)
-  : x_off_{0.0f}, y_off_{0.0f}
-  , x_scale_{1.0f}, y_scale_{1.0f}
-  , wic_factory_(create_wic_factory())
+  : wic_factory_(create_wic_factory())
   , factory_(create_factory())
   , target_(create_renderer(*factory_, handle))
   , brush_(create_brush(*target_))

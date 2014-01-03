@@ -62,7 +62,7 @@ string_ref json::type_info::to_string() const {
 cref_wrapped json::require_size(cref json, size_t const min, size_t const max) {
     auto const size = json.size();
 
-    if (size < min || size > max) {
+    if (size < min || (max > 0 && size > max)) {
         BOOST_THROW_EXCEPTION(error::bad_size{}
          << error::info_expected_size{std::make_pair(min, max)}
          << error::info_actual_size{size}

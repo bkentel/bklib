@@ -27,6 +27,7 @@
     <ClInclude Include="math.hpp" />
     <ClInclude Include="mouse.hpp" />
     <ClInclude Include="pch.hpp" />
+    <ClInclude Include="quadtree.hpp" />
     <ClInclude Include="renderer2d.hpp" />
     <ClInclude Include="scope_exit.hpp" />
     <ClInclude Include="timekeeper.hpp" />

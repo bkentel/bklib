@@ -309,6 +309,15 @@ public:
     bool is_well_formed() const BK_NOEXCEPT {
         return (left() < right()) && (top() < bottom());
     }
+
+    void move(T dx, T dy) {
+        //TODO not safe
+        x0_ += dx;
+        x1_ += dx;
+
+        y0_ += dy;
+        y1_ += dy;
+    }
 private:
     //--------------------------------------------------------------------------
     //! Point plus dimensions construction.

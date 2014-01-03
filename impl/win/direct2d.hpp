@@ -3,6 +3,8 @@
 #include <type_traits>
 #include <memory>
 
+#include <glm/glm.hpp>
+
 #include <bklib/impl/win/win_platform.hpp>
 #include <bklib/renderer2d.hpp>
 
@@ -23,23 +25,26 @@ public:
         target_->Resize(D2D1::SizeU(width, height));
     }
 
-    void begin() {
-        target_->BeginDraw();
-
-        auto mat = D2D1::Matrix3x2F(
-            x_scale_, 0.0f
-          , 0.0f,     y_scale_
-          , x_off_,   y_off_
+    void set_transform(glm::mat3 const& mat) {
+        
+        auto m = D2D1::Matrix3x2F(
+            mat[0][0], mat[1][0],
+            mat[0][1], mat[1][1],
+            mat[2][0], mat[2][1]
         );
 
-        target_->SetTransform(mat);
+        target_->SetTransform(m);
+    }
+
+    void begin() {
+        target_->BeginDraw();
         target_->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
     }
 
     void end() {
         HRESULT const hr = target_->EndDraw();
         if (FAILED(hr)) {
-            BK_DEBUG_BREAK();
+            //BK_DEBUG_BREAK();
         }
     }
 
@@ -104,21 +109,6 @@ public:
     }
     void fill_round_rect();
 
-    void translate(float dx, float dy) {
-        x_off_ += dx;
-        y_off_ += dy;
-    }
-
-    void scale(float s) {
-        x_scale_ = s;
-        y_scale_ = s;
-    }
-
-    void skew(float sx, float sy) {
-        x_scale_ = sx;
-        y_scale_ = sy;
-    }
-
     template <typename T>
     void draw_rect(bklib::axis_aligned_rect<T> const r, float width = 1.0f) {
         auto const half = width / 2.0f;
@@ -177,11 +167,6 @@ public:
         brush_->SetColor(D2D1::ColorF(r, g, b, a));
     }
 private:
-    float x_off_;
-    float y_off_;
-    float x_scale_;
-    float y_scale_;
-
     com_ptr<IWICImagingFactory>    wic_factory_;
     com_ptr<ID2D1Factory>          factory_;
 

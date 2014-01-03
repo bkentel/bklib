@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 #include "math.hpp"
 #include "types.hpp"
 #include "window.hpp"
@@ -90,6 +92,8 @@ public:
     ~renderer2d();
 
     void resize(unsigned width, unsigned height);
+
+    void set_transform(glm::mat3 const& mat);
 
     void begin();
     void end();
