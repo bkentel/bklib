@@ -310,7 +310,7 @@ public:
         return (left() < right()) && (top() < bottom());
     }
 
-    void move(T dx, T dy) {
+    void translate(T dx, T dy) {
         //TODO not safe
         x0_ += dx;
         x1_ += dx;
@@ -699,10 +699,10 @@ bool intersects(circle<T> const c, axis_aligned_rect<T> const r) BK_NOEXCEPT {
 template <typename T>
 bool intersects(axis_aligned_rect<T> const ra, axis_aligned_rect<T> const rb) BK_NOEXCEPT {
     return !(
-        ra.right()  <= rb.left()
-     || ra.bottom() <= rb.top()
-     || ra.left()   >= rb.right()
-     || ra.top()    >= rb.bottom()
+        ra.right()  < rb.left()
+     || ra.bottom() < rb.top()
+     || ra.left()   > rb.right()
+     || ra.top()    > rb.bottom()
     );
 }
 //==============================================================================
