@@ -161,7 +161,7 @@
 //
 //        buffer_.clear();
 //        buffer_.push_back(&root_);
-//        
+//
 //        node_t* node = nullptr;
 //
 //        for (size_t i = 0; i < buffer_.size(); ++i) {
@@ -193,7 +193,7 @@
 //                if (quads[i]) {
 //                    node->child(i)->insert(value);
 //                }
-//            }            
+//            }
 //        }
 //    }
 //

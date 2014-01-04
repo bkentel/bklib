@@ -26,7 +26,7 @@ public:
     }
 
     void set_transform(glm::mat3 const& mat) {
-        
+
         auto m = D2D1::Matrix3x2F(
             mat[0][0], mat[1][0],
             mat[0][1], mat[1][1],
